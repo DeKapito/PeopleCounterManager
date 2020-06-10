@@ -1,0 +1,11 @@
+.form-container {
+    position: fixed;
+    width: 700px;
+    height: 400px;
+    border: 1px;
+    border-style: solid;
+    border-color: #0288d1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

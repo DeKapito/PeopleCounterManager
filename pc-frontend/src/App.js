@@ -8,6 +8,7 @@ import Menu from './components/Menu';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { BASE_URL } from './Consts'
 import { isLoggedIn } from './components/utils'
+import Home from './components/Home';
 
 
 class App extends Component {
@@ -81,6 +82,9 @@ class App extends Component {
                     <Switch>
                         <Route path='/sign-in'>
                             <LoginForm handleLogin={this.handleLogin} />
+                        </Route>
+                        <Route path='/'>
+                            <Home/>
                         </Route>
                         <this.PrivateRoute path='/hello'>
                             <h2>Hello</h2>

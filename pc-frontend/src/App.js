@@ -7,7 +7,7 @@ import LoginForm from './components/LoginForm';
 import Menu from './components/Menu';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { BASE_URL } from './Consts'
-import { isLoggedIn } from './components/utils'
+import { isLoggedIn, request } from './components/utils'
 import Home from './components/Home';
 
 
@@ -22,37 +22,38 @@ class App extends Component {
 
     componentDidMount() {
         if (this.state.isLoggedIn) {
-            fetch(BASE_URL + '/core/current_user/', {
-                headers: {
-                    Authorization: `JWT ${localStorage.getItem('token')}`
-                }
+            request({
+                url: BASE_URL + "/core/current_user/",
             })
-                .then(res => res.json())
-                .then(json => {
-                    this.setState({ username: json.username });
+                .then(result => {
+                    console.log(result);
+                    this.setState({ username: result.username });
+                })
+                .catch(error => {
+                    console.log(error);
+                    M.toast({ html: 'Error: ' + JSON.stringify(error) });
                 });
         }
     }
 
     handleLogin = (e, data) => {
         e.preventDefault();
-        fetch(BASE_URL + '/token-auth/', {
+
+        request({
+            url: BASE_URL + "/token-auth/",
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(data)
         })
-            .then(res => res.json())
-            .then(json => {
-                localStorage.setItem('token', json.token);
+            .then(result => {
+                localStorage.setItem('token', result.token);
                 this.setState({
                     isLoggedIn: true,
-                    username: json.user.username
+                    username: result.user.username
                 });
             })
             .catch(error => {
-                M.toast({ html: 'Error: ' + error });
+                console.log(error);
+                M.toast({ html: 'Error: ' + JSON.stringify(error) });
             });
     };
 
@@ -74,17 +75,30 @@ class App extends Component {
         );
     }
 
+    PublicRoute({ children, ...rest }) {
+        return (
+            <Route
+                {...rest}
+                render={({ location }) =>
+                    isLoggedIn() && rest.protected
+                        ? (<Redirect to={{ pathname: "/", state: { from: location } }} />)
+                        : (children)
+                }
+            />
+        );
+    }
+
     render() {
         return (
             <div className="App">
                 <Menu isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout} />
                 <Router>
                     <Switch>
-                        <Route path='/sign-in'>
+                        <this.PublicRoute path='/sign-in' protected={true}>
                             <LoginForm handleLogin={this.handleLogin} />
-                        </Route>
+                        </this.PublicRoute>
                         <Route path='/'>
-                            <Home/>
+                            <Home />
                         </Route>
                         <this.PrivateRoute path='/hello'>
                             <h2>Hello</h2>

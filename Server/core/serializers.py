@@ -2,12 +2,14 @@ from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
 
+from .models import Camera, Metric
+
 
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email',)
+        fields = ('email', 'username', 'first_name', 'last_name')
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -34,3 +36,16 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('token', 'email', 'username', 'first_name', 'last_name', 'password')
+
+
+class MetricSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Metric
+        fields = ('camera_id', 'direction', 'timestamp')
+
+
+class CameraSerializer(serializers.ModelSerializer):
+    metrics = MetricSerializer(many=True, read_only=True)
+    class Meta:
+        model = Camera
+        fields = ('camera_id', 'camera_name', 'description', 'metrics')

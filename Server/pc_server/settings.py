@@ -82,6 +82,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'OPTIONS': {
+    #         'read_default_file': '/path/to/my.cnf',
+    #     },
+    # }
 }
 
 REST_FRAMEWORK = {
@@ -101,6 +107,7 @@ JWT_AUTH = {
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'http://localhost:5000'
 )
 
 

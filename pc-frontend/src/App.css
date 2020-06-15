@@ -1,4 +1,14 @@
-.App {
+/* .App {
+  text-align: center;
+} */
+
+.modal { 
+  width: 90% !important;
+  max-height: 90% !important;
+  height: 80% !important;
+}
+
+h2 {
   text-align: center;
 }
 

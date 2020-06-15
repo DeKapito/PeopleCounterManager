@@ -1,14 +1,15 @@
 import './App.css';
-import 'materialize-css/dist/css/materialize.min.css'
-import M from 'materialize-css'
+import 'materialize-css/dist/css/materialize.min.css';
+import M from 'materialize-css';
 
 import React, { Component } from 'react';
 import LoginForm from './components/LoginForm';
 import Menu from './components/Menu';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { BASE_URL } from './Consts'
-import { isLoggedIn, request } from './components/utils'
+import { BASE_URL } from './Consts';
+import { isLoggedIn, request } from './components/utils';
 import Home from './components/Home';
+import CamerasPage from './components/CamerasPage';
 
 
 class App extends Component {
@@ -97,12 +98,12 @@ class App extends Component {
                         <this.PublicRoute path='/sign-in' protected={true}>
                             <LoginForm handleLogin={this.handleLogin} />
                         </this.PublicRoute>
+                        <this.PrivateRoute path='/cameras'>
+                            <CamerasPage />
+                        </this.PrivateRoute>
                         <Route path='/'>
                             <Home />
                         </Route>
-                        <this.PrivateRoute path='/hello'>
-                            <h2>Hello</h2>
-                        </this.PrivateRoute>
                     </Switch>
                 </Router>
             </div>

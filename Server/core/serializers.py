@@ -45,7 +45,7 @@ class MetricSerializer(serializers.ModelSerializer):
 
 
 class CameraSerializer(serializers.ModelSerializer):
-    metrics = MetricSerializer(many=True, read_only=True)
+    # metrics = MetricSerializer(many=True, read_only=True)
     class Meta:
         model = Camera
-        fields = ('camera_id', 'camera_name', 'description', 'metrics')
+        fields = ('camera_id', 'camera_name', 'description', 'view_url')#, 'metrics')

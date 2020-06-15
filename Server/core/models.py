@@ -3,6 +3,7 @@ from django.db import models
 
 class Camera(models.Model):
     camera_id = models.CharField(verbose_name='camera_id', unique=True, max_length=255, primary_key=True)
+    view_url = models.CharField(max_length=255)
     camera_name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
 

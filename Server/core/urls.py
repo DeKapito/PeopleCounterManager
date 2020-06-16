@@ -7,4 +7,5 @@ urlpatterns = [
     path('cameras/', CameraView.as_view()),
     path('cameras/<str:pk>', CameraView.as_view()),
     path('metrics/', MetricView.as_view()),
+    path('metrics/<str:camera_id>', MetricView.as_view()),
 ]

@@ -11,7 +11,7 @@ class Menu extends Component {
                 <Navbar alignLinks='right' className='light-blue darken-2'>
                     <NavItem href='/'>Home</NavItem>
                     <NavItem href='/cameras'>Cameras</NavItem>
-                    <NavItem href='/statistics'>Statistics</NavItem>
+                    <NavItem href='/statistic'>Statistic</NavItem>
                     <NavItem onClick={this.props.handleLogout}>Log Out</NavItem>
                 </Navbar>
             );

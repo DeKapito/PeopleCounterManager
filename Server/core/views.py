@@ -51,8 +51,11 @@ class CameraView(APIView):
 class MetricView(APIView):
     permission_classes = (permissions.AllowAny,)
     
-    def get(self, request, format=None):
-        metrics = Metric.objects.all()
+    def get(self, request, camera_id='', format=None):
+        if camera_id:
+            metrics = Metric.objects.filter(camera_id=camera_id).order_by('timestamp')
+        else:
+            metrics = Metric.objects.all()
         serializer = MetricSerializer(metrics, many=True)
         return Response(serializer.data)
     
@@ -60,5 +63,5 @@ class MetricView(APIView):
         serializer = MetricSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save() 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=200)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
